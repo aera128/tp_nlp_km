@@ -1,14 +1,14 @@
-#TP NLP KM
-##Description
+# TP NLP KM
+## Description
 Search engine for the https://www.kaggle.com/santiagobasulto/all-hacker-news-posts-stories-askshow-hn-polls dataset
-##Requirement
+## Requirement
 - Python 3
 - pip
 
-##Download the dataset
+## Download the dataset
 there are 2 ways to download the dataset
 
-##Installation
+## Installation
 - go to the project directory
 ```
 python -m venv venv
@@ -16,7 +16,7 @@ venv\Scripts\activate
 pip install -r requirement.txt
 python -m spacy download en_core_web_lg
 ```
-###Setup the API
+### Setup the API
 - go to https://www.kaggle.com
 - create an account
 - go to https://www.kaggle.com/<username>/account
@@ -25,13 +25,13 @@ python -m spacy download en_core_web_lg
 - move kaggle.json to ``C:\Users\<Windows-username>\.kaggle\kaggle.json`` for Windows or ``~/.kaggle/kaggle.json`` for Linux
 - the dataset will be automatically downloaded when starting
 
-###Download manually the dataset
+### Download manually the dataset
 - go to https://www.kaggle.com/santiagobasulto/all-hacker-news-posts-stories-askshow-hn-polls
 - click on "Download (205MB)"
 - login if needed
 - extract the hn.csv of the archive on the project directory
 
-##Run
+## Run
 ```
 python manage.py runserver
 ```
