@@ -1,6 +1,6 @@
 # TP NLP KM
 ## Description
-Search engine for the https://www.kaggle.com/santiagobasulto/all-hacker-news-posts-stories-askshow-hn-polls dataset
+Search engine for the https://www.kaggle.com/santiagobasulto/all-hacker-news-posts-stories-askshow-hn-polls dataset developped with Django framework
 ## Requirement
 - Python 3
 - pip
