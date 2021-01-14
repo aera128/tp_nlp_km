@@ -19,7 +19,7 @@ python -m spacy download en_core_web_lg
 ### Setup the API
 - go to https://www.kaggle.com
 - create an account
-- go to https://www.kaggle.com/<username>/account
+- go to your account page : https://www.kaggle.com/username/account
 - click on "Create New API Token"
 - download your kaggle.json
 - move kaggle.json to ``C:\Users\<Windows-username>\.kaggle\kaggle.json`` for Windows or ``~/.kaggle/kaggle.json`` for Linux
