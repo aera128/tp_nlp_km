@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %}ACCUEIL{% endblock %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="display-4 text-center py-5">Hacker news search</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form class="pb-3">
+                    <div class="mx-auto col-lg-7 mb-3">
+                        <div class="input-group shadow">
+                            <input type="text" class="form-control form-control-lg" id="query_input"
+                                   placeholder="Search"
+                                   aria-describedby="append" required>
+                            <div class="input-group-prepend">
+                                <input type="submit" value="search" class="btn btn-primary btn-lg rounded-end"
+                                       id="append">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p id="synonyms" class="small" style="display: none">Synonyms : </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div id="pages" class="text-center pb-3" style="display: none">
+                    <button id="prec" class="btn btn-sm btn-primary rounded-pill"><</button>
+                    <span id="span-pages"></span>
+                    <button id="next" class="btn btn-sm btn-primary rounded-pill">></button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div id="results">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        let page = 0;
+        let query = $('#query_input').val();
+        let max = 0;
+
+        function show_result(data) {
+            results_list = document.createElement('div');
+            $(results_list).addClass('list-group list-group-flush')
+            $(data['results']).each((i, el) => {
+                element = document.createElement('a');
+                $(element).addClass('list-group-item list-group-item-action')
+                $(element).attr('id', el["id"]);
+                $(element).attr('href', el["url"]);
+                $(element).attr('target', "_blank");
+                $(element).append(
+                    '<div class="d-flex w-100 justify-content-between">' +
+                    '<h5 class="mb-1">' + (el['index'] + 1) + ' - ' + el['title'] + '</h5>' +
+                    '<small>' + el['created_at'] + '</small>' +
+                    '</div>'
+                );
+                $(element).append('<p class="mb-1">Created by ' + el['author'] + '</p>');
+                $(element).append('<small>' + el['num_comments'] + ' comments, ' + el['num_points'] + ' points, type: ' + el['type'] + '</small>');
+                $(results_list).append(element);
+            });
+            $("#results").html(results_list);
+
+            max = Math.round(data['count'] / 50);
+            $("#span-pages").text(((50 * page) + 1) + '-' + (50 + (50 * page)));
+            $("#pages").fadeIn();
+
+            synonyms_html = "Synonyms: ";
+            if (data["synonyms"].length > 0) {
+                $(data["synonyms"]).each((i, el) => {
+                    synonyms_html += '<button class="btn btn-primary btn-sm mx-1" value="' + el + '">' + el + '</button>';
+                });
+                $('#synonyms').html(synonyms_html);
+
+                $('#synonyms button').click((ev) => {
+                    page = 0;
+                    query = $(ev.target).val();
+                    $("#query_input").val(query);
+                    search();
+                });
+
+            } else {
+                synonyms_html += 'none';
+                $('#synonyms').text(synonyms_html);
+            }
+            $("#synonyms").fadeIn();
+
+        }
+
+        function search() {
+            $.ajax({
+                url: '{% url 'search' %}',
+                method: 'POST',
+                data: {
+                    query: query,
+                    page: page
+                },
+                success: (data) => {
+                    console.log(data);
+                    show_result(data)
+                }
+            })
+        }
+
+        $("#prec").click(() => {
+            if (page - 1 >= 0) {
+                page--;
+                search();
+            }
+        });
+        $("#next").click(() => {
+            if (page + 1 < max) {
+                page++;
+                search();
+            }
+        });
+
+        $(document).ready(() => {
+            $('form').submit((e) => {
+                e.preventDefault();
+                query = $('#query_input').val();
+                page = 0;
+                search();
+            });
+        });
+    </script>
+{% endblock %}
