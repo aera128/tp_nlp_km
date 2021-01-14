@@ -9,7 +9,10 @@ Search engine for the https://www.kaggle.com/santiagobasulto/all-hacker-news-pos
 there are 2 ways to download the dataset
 
 ##Installation
+- go to the project directory
 ```
+python -m venv venv
+venv\Scripts\activate
 pip install -r requirement.txt
 python -m spacy download en_core_web_lg
 ```
